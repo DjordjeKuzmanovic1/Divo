@@ -1,0 +1,2921 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plan. Focus. Achieve.</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+      :root {
+        /* Primary colors */
+        --primary-50: #ecfdf5;
+        --primary-100: #d1fae5;
+        --primary-200: #a7f3d0;
+        --primary-300: #6ee7b7;
+        --primary-400: #34d399;
+        --primary-500: #10b981;
+        --primary-600: #059669;
+        --primary-700: #047857;
+        --primary-800: #065f46;
+        --primary-900: #064e3b;
+        
+        /* Neutral colors */
+        --neutral-50: #f9fafb;
+        --neutral-100: #f3f4f6;
+        --neutral-200: #e5e7eb;
+        --neutral-300: #d1d5db;
+        --neutral-400: #9ca3af;
+        --neutral-500: #6b7280;
+        --neutral-600: #4b5563;
+        --neutral-700: #374151;
+        --neutral-800: #1f2937;
+        --neutral-900: #111827;
+        --neutral-950: #030712;
+        
+        /* Accent colors */
+        --blue-500: #3b82f6;
+        --purple-500: #8b5cf6;
+        --pink-500: #ec4899;
+        --red-500: #ef4444;
+        --yellow-500: #f59e0b;
+        
+        /* Theme variables */
+        --primary: var(--primary-500);
+        --primary-dark: var(--primary-600);
+        --primary-light: var(--primary-400);
+        --accent: var(--primary-500);
+        --success: var(--primary-500);
+        --warning: var(--yellow-500);
+        --error: var(--red-500);
+        
+        /* UI variables */
+        --bg-dark: #0f172a;
+        --bg-dark-lighter: #1e293b;
+        --bg-light: #f8fafc;
+        --bg-light-darker: #e2e8f0;
+        --bg-panel-dark: rgba(30, 41, 59, 0.8);
+        --bg-panel-light: rgba(255, 255, 255, 0.8);
+        --text-light: var(--neutral-100);
+        --text-dark: var(--neutral-800);
+        
+        /* Derived variables - will be changed by theme */
+        --bg-color: var(--bg-dark);
+        --bg-lighter: var(--bg-dark-lighter);
+        --bg-panel: var(--bg-panel-dark);
+        --text-color: var(--text-light);
+        --text-muted: var(--neutral-400);
+        --border-color: rgba(255, 255, 255, 0.1);
+        
+        /* Sizes */
+        --header-height: 4rem;
+        --sidebar-width: 280px;
+        --sidebar-collapsed-width: 80px;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      html {
+        font-size: 16px;
+      }
+
+      body {
+        background: var(--bg-color);
+        color: var(--text-color);
+        min-height: 100vh;
+        line-height: 1.5;
+        font-size: 1rem;
+        overflow-x: hidden;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        font-weight: 600;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+      }
+
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.5rem; }
+      h3 { font-size: 1.25rem; }
+
+      p {
+        margin-bottom: 1rem;
+      }
+
+      /* Transitions */
+      .transition-colors {
+        transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+      }
+
+      .transition-transform {
+        transition: transform 0.3s;
+      }
+
+      .transition-opacity {
+        transition: opacity 0.3s;
+      }
+
+      .transition-all {
+        transition: all 0.3s;
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      @keyframes slideUp {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+
+      @keyframes slideInLeft {
+        from { transform: translateX(-20px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+      }
+
+      .animate-fadeIn {
+        animation: fadeIn 0.5s ease-in-out;
+      }
+
+      .animate-slideUp {
+        animation: slideUp 0.5s ease-out;
+      }
+
+      .animate-slideInLeft {
+        animation: slideInLeft 0.5s ease-out;
+      }
+
+      .animate-pulse {
+        animation: pulse 2s infinite;
+      }
+
+      /* Layout */
+      .app {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Auth Styles */
+      .auth-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 2rem;
+        background-color: var(--bg-color);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .auth-container::before {
+        content: '';
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        background: linear-gradient(to right, var(--primary-500), var(--primary-700));
+        top: -250px;
+        left: -250px;
+        opacity: 0.5;
+        filter: blur(80px);
+        z-index: 0;
+      }
+
+      .auth-container::after {
+        content: '';
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        background: linear-gradient(to right, var(--purple-500), var(--blue-500));
+        bottom: -250px;
+        right: -250px;
+        opacity: 0.5;
+        filter: blur(80px);
+        z-index: 0;
+      }
+
+      .auth-card {
+        width: 100%;
+        max-width: 400px;
+        padding: 2.5rem;
+        border-radius: 16px;
+        background: var(--bg-panel);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid var(--border-color);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        position: relative;
+        z-index: 1;
+      }
+
+      .auth-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 2rem;
+      }
+
+      .auth-logo-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--primary-400), var(--primary-600));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: white;
+        margin-right: 1rem;
+      }
+
+      .auth-logo-text {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(to right, var(--primary-400), var(--primary-600));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+      }
+
+      .auth-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-weight: 600;
+      }
+
+      .auth-subtitle {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+      }
+
+      .auth-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .form-group label {
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+
+      .form-group input {
+        padding: 0.85rem 1rem;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        background: rgba(0, 0, 0, 0.1);
+        color: var(--text-color);
+        font-size: 1rem;
+        width: 100%;
+        transition: all 0.2s;
+      }
+
+      .form-group select {
+        padding: 0.85rem 1rem;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        background: rgba(0, 0, 0, 0.1);
+        color: var(--text-color);
+        font-size: 1rem;
+        width: 100%;
+        transition: all 0.2s;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 1rem;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+      }
+
+      .user-avatar {
+        width: 4rem;
+        height: 4rem;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary-400), var(--primary-600));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2rem;
+        font-weight: 600;
+        margin: 0 auto 1.5rem;
+      }
+
+      /* Buttons */
+      .btn {
+        padding: 0.85rem 1.5rem;
+        border-radius: 8px;
+        border: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all 0.2s;
+        color: var(--text-color);
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .btn:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+
+      .btn-primary {
+        background: linear-gradient(to right, var(--primary-500), var(--primary-600));
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: linear-gradient(to right, var(--primary-600), var(--primary-700));
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+
+      .btn-outline {
+        background: transparent;
+        border: 1px solid var(--border-color);
+      }
+
+      .btn-outline:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .btn-icon {
+        padding: 0.5rem;
+        border-radius: 8px;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .btn-rounded {
+        border-radius: 9999px;
+      }
+
+      .btn-sm {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+      }
+
+      .btn-danger {
+        background: var(--error);
+        color: white;
+      }
+
+      .btn-danger:hover {
+        background: linear-gradient(to right, var(--error), #dc2626);
+      }
+
+      .btn-danger-outline {
+        color: var(--error);
+        border: 1px solid var(--error);
+        background: transparent;
+      }
+
+      .btn-danger-outline:hover {
+        background: rgba(239, 68, 68, 0.1);
+      }
+
+      .btn-success {
+        background: var(--success);
+        color: white;
+      }
+
+      .btn-success:hover {
+        background: var(--primary-dark);
+      }
+
+      .btn-full {
+        width: 100%;
+      }
+
+      .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      /* Dashboard */
+      .dashboard {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      .dashboard-header {
+        height: var(--header-height);
+        padding: 0 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--bg-panel);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border-color);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+      }
+
+      .dashboard-logo {
+        color: var(--primary);
+        font-size: 1.5rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .dashboard-logo-icon {
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 8px;
+        background: linear-gradient(135deg, var(--primary-400), var(--primary-600));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        color: white;
+      }
+
+      .dashboard-logo-text {
+        background: linear-gradient(to right, var(--primary-400), var(--primary-600));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+      }
+
+      .user-menu {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 9999px;
+        transition: all 0.2s;
+      }
+
+      .user-info:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .user-avatar-sm {
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary-400), var(--primary-600));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+        font-size: 1rem;
+      }
+
+      .dashboard-main {
+        display: flex;
+        flex: 1;
+        margin-top: var(--header-height);
+      }
+
+      .sidebar {
+        width: var(--sidebar-width);
+        background: var(--bg-panel);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-right: 1px solid var(--border-color);
+        padding: 1.5rem 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        position: fixed;
+        top: var(--header-height);
+        bottom: 0;
+        left: 0;
+        overflow-y: auto;
+        transition: all 0.3s ease;
+        z-index: 5;
+      }
+
+      .sidebar.collapsed {
+        width: var(--sidebar-collapsed-width);
+      }
+
+      .sidebar-section {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .sidebar-section-title {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        font-weight: 600;
+        padding: 0 0.75rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .nav-item {
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        color: var(--text-color);
+        text-decoration: none;
+      }
+
+      .sidebar.collapsed .nav-item {
+        justify-content: center;
+        padding: 0.75rem;
+      }
+
+      .sidebar.collapsed .nav-item-text,
+      .sidebar.collapsed .sidebar-section-title {
+        display: none;
+      }
+
+      .nav-item:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+
+      .nav-item.active {
+        background: linear-gradient(90deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+        border-left: 3px solid var(--primary);
+      }
+
+      .nav-item-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-muted);
+        transition: all 0.2s;
+      }
+
+      .nav-item.active .nav-item-icon,
+      .nav-item:hover .nav-item-icon {
+        color: var(--primary);
+      }
+
+      .nav-item-text {
+        font-weight: 500;
+        transition: all 0.2s;
+      }
+
+      .content {
+        flex: 1;
+        padding: 2rem;
+        overflow-y: auto;
+        margin-left: var(--sidebar-width);
+        transition: margin-left 0.3s ease;
+      }
+
+      .content.full-width {
+        margin-left: var(--sidebar-collapsed-width);
+      }
+
+      .section-header {
+        margin-bottom: 2rem;
+      }
+
+      .section-title {
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .section-subtitle {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+      }
+
+      /* Pomodoro */
+      .pomodoro-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .timer-type-switcher {
+        display: flex;
+        margin-bottom: 2rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 9999px;
+        padding: 0.25rem;
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .timer-type-option {
+        padding: 0.5rem 1.25rem;
+        border-radius: 9999px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.2s;
+      }
+
+      .timer-type-option.active {
+        background: var(--primary);
+        color: white;
+      }
+
+      .timer-display {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 2rem 0;
+      }
+
+      .timer-circle-container {
+        position: relative;
+        width: 300px;
+        height: 300px;
+      }
+
+      .timer-circle {
+        width: 100%;
+        height: 100%;
+      }
+
+      .timer-progress {
+        stroke: var(--primary);
+        stroke-width: 8;
+        stroke-linecap: round;
+        fill: none;
+        transform: rotate(-90deg);
+        transform-origin: center;
+        transition: stroke-dashoffset 1s linear;
+      }
+
+      .timer-progress-bg {
+        stroke: rgba(255, 255, 255, 0.1);
+        stroke-width: 8;
+        fill: none;
+      }
+
+      .timer-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+      }
+
+      .timer-time {
+        font-size: 3.5rem;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+        line-height: 1;
+      }
+
+      .timer-label {
+        font-size: 1rem;
+        color: var(--text-muted);
+        margin-top: 0.5rem;
+      }
+
+      .timer-controls {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .session-count {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+        gap: 0.5rem;
+      }
+
+      .session-dot {
+        width: 0.75rem;
+        height: 0.75rem;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .session-dot.completed {
+        background: var(--primary);
+      }
+
+      /* Tasks */
+      .task-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .add-form {
+        background: var(--bg-panel);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border: 1px solid var(--border-color);
+      }
+
+      .add-form-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+      }
+
+      .add-form-row {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .add-form-col {
+        flex: 1;
+      }
+
+      .priority-options {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .priority-option {
+        flex: 1;
+        padding: 0.5rem;
+        border-radius: 8px;
+        text-align: center;
+        cursor: pointer;
+        font-weight: 500;
+        border: 1px solid var(--border-color);
+        transition: all 0.2s;
+      }
+
+      .priority-option:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .priority-option.active {
+        border-color: var(--primary);
+        background: rgba(16, 185, 129, 0.1);
+      }
+
+      .priority-option.low {
+        color: #10b981;
+      }
+
+      .priority-option.medium {
+        color: #f59e0b;
+      }
+
+      .priority-option.high {
+        color: #ef4444;
+      }
+
+      .priority-option.active.low {
+        background: rgba(16, 185, 129, 0.1);
+      }
+
+      .priority-option.active.medium {
+        background: rgba(245, 158, 11, 0.1);
+      }
+
+      .priority-option.active.high {
+        background: rgba(239, 68, 68, 0.1);
+      }
+
+      .item-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .item-card {
+        background: var(--bg-panel);
+        border-radius: 12px;
+        padding: 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        border: 1px solid var(--border-color);
+        transition: all 0.2s;
+      }
+
+      .item-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      }
+
+      .item-checkbox {
+        position: relative;
+        width: 22px;
+        height: 22px;
+      }
+
+      .item-checkbox input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+      }
+
+      .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 22px;
+        height: 22px;
+        border-radius: 6px;
+        border: 2px solid var(--text-muted);
+        transition: all 0.2s;
+      }
+
+      .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+        top: 3px;
+        left: 7px;
+        width: 4px;
+        height: 9px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+
+      .item-checkbox input:checked ~ .checkmark {
+        background-color: var(--primary);
+        border-color: var(--primary);
+      }
+
+      .item-checkbox input:checked ~ .checkmark:after {
+        display: block;
+      }
+
+      .item-content {
+        flex: 1;
+        overflow: hidden;
+      }
+
+      .item-title {
+        font-weight: 500;
+        transition: all 0.2s;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .completed .item-title {
+        text-decoration: line-through;
+        color: var(--text-muted);
+      }
+
+      .item-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.25rem;
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+
+      .priority-badge {
+        padding: 0.2rem 0.5rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 500;
+      }
+
+      .priority-badge.low {
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+      }
+
+      .priority-badge.medium {
+        background: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+      }
+
+      .priority-badge.high {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+      }
+
+      .timeframe-badge {
+        padding: 0.2rem 0.5rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        background: rgba(139, 92, 246, 0.1);
+        color: #8b5cf6;
+      }
+
+      .item-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      /* Settings */
+      .settings-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .settings-section {
+        background: var(--bg-panel);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        border: 1px solid var(--border-color);
+      }
+
+      .settings-section-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+      }
+
+      .theme-switcher {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .theme-option {
+        flex: 1;
+        aspect-ratio: 1/0.6;
+        border-radius: 12px;
+        padding: 1rem;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: all 0.2s;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .theme-option.dark {
+        background: #1e293b;
+        color: white;
+      }
+
+      .theme-option.light {
+        background: #f1f5f9;
+        color: #0f172a;
+      }
+
+      .theme-option.active {
+        border-color: var(--primary);
+      }
+
+      .theme-option-header {
+        height: 20%;
+        border-radius: 4px;
+      }
+
+      .theme-option.dark .theme-option-header {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .theme-option.light .theme-option-header {
+        background: rgba(0, 0, 0, 0.1);
+      }
+
+      .theme-option-content {
+        height: 60%;
+        display: flex;
+        gap: 4px;
+        margin-top: 8px;
+      }
+
+      .theme-option-sidebar {
+        width: 20%;
+        border-radius: 4px;
+      }
+
+      .theme-option.dark .theme-option-sidebar {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .theme-option.light .theme-option-sidebar {
+        background: rgba(0, 0, 0, 0.1);
+      }
+
+      .theme-option-main {
+        flex: 1;
+        border-radius: 4px;
+      }
+
+      .theme-option.dark .theme-option-main {
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .theme-option.light .theme-option-main {
+        background: rgba(0, 0, 0, 0.05);
+      }
+
+      .theme-option-check {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 50%;
+        background: var(--primary);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        opacity: 0;
+        transition: all 0.2s;
+      }
+
+      .theme-option.active .theme-option-check {
+        opacity: 1;
+      }
+
+      .theme-option-name {
+        position: absolute;
+        bottom: 0.5rem;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+
+      .color-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .color-option {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: all 0.2s;
+        position: relative;
+      }
+
+      .color-option:hover {
+        transform: scale(1.1);
+      }
+
+      .color-option.active {
+        border-color: var(--text-color);
+      }
+
+      .color-option-check {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        opacity: 0;
+        transition: all 0.2s;
+      }
+
+      .color-option.active .color-option-check {
+        opacity: 1;
+      }
+
+      .time-settings {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .data-section {
+        margin-top: 1.5rem;
+      }
+
+      /* Stats */
+      .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .stat-card {
+        background: var(--bg-panel);
+        border-radius: 12px;
+        padding: 1.5rem;
+        border: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .stat-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+      }
+
+      .stat-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 12px;
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .stat-title {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        font-weight: 500;
+      }
+
+      .stat-value {
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin: 0.5rem 0;
+      }
+
+      .stat-change {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .stat-change.positive {
+        color: var(--success);
+      }
+
+      .stat-change.negative {
+        color: var(--error);
+      }
+
+      /* Notifications */
+      .notification {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        max-width: 350px;
+        background: var(--bg-panel);
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        z-index: 50;
+        transform: translateY(100px);
+        opacity: 0;
+        transition: all 0.3s ease-out;
+        border-left: 4px solid var(--primary);
+      }
+
+      .notification.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      .notification-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+      }
+
+      .notification-title {
+        font-weight: 600;
+      }
+
+      .notification-close {
+        cursor: pointer;
+        padding: 0.25rem;
+        border-radius: 50%;
+      }
+
+      .notification-close:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .notification-body {
+        font-size: 0.9rem;
+      }
+
+      /* Confirmation Modal */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s;
+      }
+
+      .modal-overlay.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal {
+        width: 100%;
+        max-width: 400px;
+        background: var(--bg-panel);
+        border-radius: 16px;
+        padding: 1.5rem;
+        transform: scale(0.95);
+        transition: all 0.3s;
+        border: 1px solid var(--border-color);
+      }
+
+      .modal-overlay.show .modal {
+        transform: scale(1);
+      }
+
+      .modal-header {
+        margin-bottom: 1rem;
+      }
+
+      .modal-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+
+      .modal-body {
+        margin-bottom: 1.5rem;
+      }
+
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+      }
+
+      /* Mobile Styles */
+      .mobile-sidebar-toggle {
+        display: none;
+        margin-right: 1rem;
+      }
+
+      .sidebar-backdrop {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 4;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s;
+      }
+
+      @media (max-width: 1024px) {
+        .sidebar {
+          transform: translateX(-100%);
+        }
+
+        .sidebar.show {
+          transform: translateX(0);
+        }
+
+        .content {
+          margin-left: 0;
+        }
+
+        .content.full-width {
+          margin-left: 0;
+        }
+
+        .mobile-sidebar-toggle {
+          display: block;
+        }
+
+        .sidebar-backdrop {
+          display: block;
+        }
+
+        .sidebar-backdrop.show {
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .auth-card {
+          padding: 2rem;
+        }
+
+        .timer-circle-container {
+          width: 250px;
+          height: 250px;
+        }
+
+        .timer-time {
+          font-size: 3rem;
+        }
+
+        .add-form-row {
+          flex-direction: column;
+        }
+
+        .dashboard-header {
+          padding: 0 1rem;
+        }
+
+        .stat-value {
+          font-size: 2rem;
+        }
+
+        .timer-controls {
+          flex-wrap: wrap;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .timer-circle-container {
+          width: 200px;
+          height: 200px;
+        }
+
+        .timer-time {
+          font-size: 2.5rem;
+        }
+
+        .auth-logo-text {
+          font-size: 2rem;
+        }
+
+        .user-info span {
+          display: none;
+        }
+        
+        .section-title {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    
+    <script>
+      // State management
+      let state = {
+        user: null,
+        isAuthenticated: false,
+        activeTab: 'pomodoro',
+        tasks: [],
+        goals: [],
+        timer: {
+          workDuration: 25,
+          breakDuration: 5,
+          longBreakDuration: 15,
+          sessionsBeforeLongBreak: 4,
+          seconds: 1500,
+          isActive: false,
+          isBreak: false,
+          isLongBreak: false,
+          completedSessions: 0,
+          totalSessionsToday: 0
+        },
+        theme: {
+          isDark: true,
+          accentColor: '#10b981'
+        },
+        ui: {
+          sidebarCollapsed: false,
+          sidebarVisible: false,
+          currentModal: null,
+          modalData: null,
+          notification: {
+            show: false,
+            title: '',
+            message: '',
+            type: 'info'
+          }
+        },
+        stats: {
+          focusTimeToday: 0,
+          tasksCompletedToday: 0,
+          streakDays: 0
+        }
+      };
+
+      // Constants
+      const COLORS = {
+        green: '#10b981',
+        blue: '#3b82f6',
+        purple: '#8b5cf6',
+        pink: '#ec4899',
+        orange: '#f97316'
+      };
+
+      // Load saved data
+      function loadSavedData() {
+        try {
+          const savedUser = localStorage.getItem('divo_user');
+          if (savedUser) {
+            state.user = JSON.parse(savedUser);
+            checkAutoLogin();
+          }
+
+          const savedTheme = localStorage.getItem('divo_theme');
+          if (savedTheme) {
+            state.theme = JSON.parse(savedTheme);
+            applyTheme(state.theme.isDark, state.theme.accentColor);
+          }
+
+          const savedTasks = localStorage.getItem('divo_tasks');
+          if (savedTasks) {
+            state.tasks = JSON.parse(savedTasks);
+          }
+
+          const savedGoals = localStorage.getItem('divo_goals');
+          if (savedGoals) {
+            state.goals = JSON.parse(savedGoals);
+          }
+
+          const savedStats = localStorage.getItem('divo_stats');
+          if (savedStats) {
+            state.stats = JSON.parse(savedStats);
+          }
+
+          // Check if we need to reset daily stats
+          const lastUsedDate = localStorage.getItem('divo_last_used_date');
+          const today = new Date().toISOString().split('T')[0];
+          
+          if (lastUsedDate !== today) {
+            resetDailyStats();
+            localStorage.setItem('divo_last_used_date', today);
+          }
+        } catch (error) {
+          console.error('Error loading saved data:', error);
+          showNotification('Error', 'There was a problem loading your data. Some features may not work correctly.', 'error');
+        }
+      }
+
+      function checkAutoLogin() {
+        const rememberedUser = localStorage.getItem('divo_remember_me');
+        if (rememberedUser && state.user) {
+          state.isAuthenticated = true;
+        }
+      }
+
+      function resetDailyStats() {
+        state.stats.focusTimeToday = 0;
+        state.stats.tasksCompletedToday = 0;
+        state.timer.totalSessionsToday = 0;
+        saveStats();
+      }
+
+      function saveStats() {
+        localStorage.setItem('divo_stats', JSON.stringify(state.stats));
+      }
+
+      // Authentication
+      function handleLogin(event) {
+        event.preventDefault();
+        const password = document.querySelector('#password').value;
+        const rememberMe = document.querySelector('#rememberMe')?.checked || false;
+
+        if (state.user) {
+          // Login
+          if (password === state.user.password) {
+            state.isAuthenticated = true;
+            
+            if (rememberMe) {
+              localStorage.setItem('divo_remember_me', 'true');
+            } else {
+              localStorage.removeItem('divo_remember_me');
+            }
+            
+            renderApp();
+            showNotification('Welcome back!', `Good to see you again, ${state.user.name}!`, 'success');
+          } else {
+            showNotification('Login Failed', 'Incorrect password. Please try again.', 'error');
+          }
+        } else {
+          // Registration
+          const name = document.querySelector('#name').value;
+          if (!name || !password) {
+            showNotification('Registration Failed', 'Please fill in all fields', 'error');
+            return;
+          }
+
+          if (password.length < 6) {
+            showNotification('Registration Failed', 'Password must be at least 6 characters long', 'error');
+            return;
+          }
+
+          const newUser = {
+            name,
+            password,
+            created: new Date().toISOString()
+          };
+
+          localStorage.setItem('divo_user', JSON.stringify(newUser));
+          
+          if (rememberMe) {
+            localStorage.setItem('divo_remember_me', 'true');
+          }
+          
+          state.user = newUser;
+          state.isAuthenticated = true;
+          
+          // Initialize stats for new user
+          state.stats = {
+            focusTimeToday: 0,
+            tasksCompletedToday: 0,
+            streakDays: 0
+          };
+          saveStats();
+          
+          renderApp();
+          showNotification('Welcome!', 'Your account has been created successfully.', 'success');
+        }
+      }
+
+      function handleLogout() {
+        state.isAuthenticated = false;
+        localStorage.removeItem('divo_remember_me');
+        renderApp();
+      }
+
+      // Timer functions
+      let timerInterval;
+
+      function startTimer() {
+        if (state.timer.isActive) return;
+        
+        state.timer.isActive = true;
+        timerInterval = setInterval(() => {
+          if (state.timer.seconds === 0) {
+            // Timer finished
+            clearInterval(timerInterval);
+            
+            if (!state.timer.isBreak) {
+              // Work session completed
+              state.timer.completedSessions++;
+              state.timer.totalSessionsToday++;
+              state.stats.focusTimeToday += state.timer.workDuration;
+              saveStats();
+              
+              // Check if we need a long break
+              if (state.timer.completedSessions % state.timer.sessionsBeforeLongBreak === 0) {
+                state.timer.isLongBreak = true;
+                state.timer.seconds = state.timer.longBreakDuration * 60;
+                showNotification('Long Break Time!', `Great job! You've completed ${state.timer.completedSessions} sessions. Take a longer break.`, 'success');
+              } else {
+                state.timer.isLongBreak = false;
+                state.timer.seconds = state.timer.breakDuration * 60;
+                showNotification('Break Time!', 'Good work! Take a short break.', 'success');
+              }
+              state.timer.isBreak = true;
+            } else {
+              // Break finished
+              state.timer.isBreak = false;
+              state.timer.isLongBreak = false;
+              state.timer.seconds = state.timer.workDuration * 60;
+              showNotification('Focus Time!', 'Break finished. Time to focus!', 'info');
+            }
+            
+            // Auto-start the next timer
+            startTimer();
+          } else {
+            state.timer.seconds--;
+          }
+          renderTimer();
+        }, 1000);
+        
+        renderTimer();
+      }
+
+      function stopTimer() {
+        if (!state.timer.isActive) return;
+        
+        state.timer.isActive = false;
+        clearInterval(timerInterval);
+        renderTimer();
+      }
+
+      function resetTimer() {
+        stopTimer();
+        state.timer.isBreak = false;
+        state.timer.isLongBreak = false;
+        state.timer.seconds = state.timer.workDuration * 60;
+        renderTimer();
+      }
+
+      function skipTimer() {
+        stopTimer();
+        
+        if (state.timer.isBreak) {
+          state.timer.isBreak = false;
+          state.timer.isLongBreak = false;
+          state.timer.seconds = state.timer.workDuration * 60;
+        } else {
+          state.timer.isBreak = true;
+          state.timer.seconds = state.timer.isLongBreak ? 
+            state.timer.longBreakDuration * 60 : 
+            state.timer.breakDuration * 60;
+        }
+        
+        renderTimer();
+      }
+
+      function updateTimerSettings(workDuration, breakDuration, longBreakDuration, sessionsBeforeLongBreak) {
+        state.timer.workDuration = parseInt(workDuration, 10);
+        state.timer.breakDuration = parseInt(breakDuration, 10);
+        state.timer.longBreakDuration = parseInt(longBreakDuration, 10);
+        state.timer.sessionsBeforeLongBreak = parseInt(sessionsBeforeLongBreak, 10);
+        
+        // Update current timer if not active
+        if (!state.timer.isActive) {
+          resetTimer();
+        }
+        
+        localStorage.setItem('divo_timer_settings', JSON.stringify({
+          workDuration: state.timer.workDuration,
+          breakDuration: state.timer.breakDuration,
+          longBreakDuration: state.timer.longBreakDuration,
+          sessionsBeforeLongBreak: state.timer.sessionsBeforeLongBreak
+        }));
+        
+        showNotification('Settings Updated', 'Timer settings have been updated successfully.', 'success');
+        renderSettings();
+      }
+
+      // Task management
+      function addTask(event) {
+        event.preventDefault();
+        
+        const text = document.querySelector('#newTaskText').value.trim();
+        const priority = document.querySelector('input[name="taskPriority"]:checked').value;
+        
+        if (!text) {
+          showNotification('Error', 'Please enter a task description', 'error');
+          return;
+        }
+        
+        const task = {
+          id: Date.now().toString(),
+          text,
+          completed: false,
+          priority,
+          createdAt: new Date().toISOString()
+        };
+
+        state.tasks.unshift(task);
+        localStorage.setItem('divo_tasks', JSON.stringify(state.tasks));
+        
+        // Reset form
+        document.querySelector('#newTaskText').value = '';
+        document.querySelector('input[name="taskPriority"][value="medium"]').checked = true;
+        
+        renderTasks();
+        showNotification('Task Added', 'Your new task has been added successfully.', 'success');
+      }
+
+      function toggleTask(id) {
+        const task = state.tasks.find(t => t.id === id);
+        if (task) {
+          task.completed = !task.completed;
+          
+          // Update stats if task is completed
+          if (task.completed) {
+            state.stats.tasksCompletedToday++;
+            saveStats();
+          } else {
+            state.stats.tasksCompletedToday = Math.max(0, state.stats.tasksCompletedToday - 1);
+            saveStats();
+          }
+          
+          localStorage.setItem('divo_tasks', JSON.stringify(state.tasks));
+          renderTasks();
+        }
+      }
+
+      function confirmDeleteTask(id) {
+        const task = state.tasks.find(t => t.id === id);
+        if (task) {
+          showModal(
+            'Delete Task', 
+            `Are you sure you want to delete "${task.text}"? This action cannot be undone.`,
+            () => deleteTask(id),
+            'Delete',
+            'Cancel'
+          );
+        }
+      }
+
+      function deleteTask(id) {
+        const task = state.tasks.find(t => t.id === id);
+        
+        // If task was completed, decrease the stats counter
+        if (task && task.completed) {
+          state.stats.tasksCompletedToday = Math.max(0, state.stats.tasksCompletedToday - 1);
+          saveStats();
+        }
+        
+        state.tasks = state.tasks.filter(t => t.id !== id);
+        localStorage.setItem('divo_tasks', JSON.stringify(state.tasks));
+        
+        hideModal();
+        renderTasks();
+        showNotification('Task Deleted', 'The task has been removed successfully.', 'info');
+      }
+
+      function clearCompletedTasks() {
+        if (state.tasks.some(t => t.completed)) {
+          showModal(
+            'Clear Completed Tasks', 
+            'Are you sure you want to remove all completed tasks? This action cannot be undone.',
+            () => {
+              state.tasks = state.tasks.filter(t => !t.completed);
+              localStorage.setItem('divo_tasks', JSON.stringify(state.tasks));
+              hideModal();
+              renderTasks();
+              showNotification('Tasks Cleared', 'All completed tasks have been removed.', 'info');
+            },
+            'Clear',
+            'Cancel'
+          );
+        } else {
+          showNotification('No Tasks', 'There are no completed tasks to clear.', 'info');
+        }
+      }
+
+      // Goal management
+      function addGoal(event) {
+        event.preventDefault();
+        
+        const text = document.querySelector('#newGoalText').value.trim();
+        const timeframe = document.querySelector('#goalTimeframe').value;
+        
+        if (!text) {
+          showNotification('Error', 'Please enter a goal description', 'error');
+          return;
+        }
+        
+        const goal = {
+          id: Date.now().toString(),
+          text,
+          completed: false,
+          timeframe,
+          createdAt: new Date().toISOString()
+        };
+
+        state.goals.unshift(goal);
+        localStorage.setItem('divo_goals', JSON.stringify(state.goals));
+        
+        // Reset form
+        document.querySelector('#newGoalText').value = '';
+        
+        renderGoals();
+        showNotification('Goal Added', 'Your new goal has been added successfully.', 'success');
+      }
+
+      function toggleGoal(id) {
+        const goal = state.goals.find(g => g.id === id);
+        if (goal) {
+          goal.completed = !goal.completed;
+          localStorage.setItem('divo_goals', JSON.stringify(state.goals));
+          renderGoals();
+        }
+      }
+
+      function confirmDeleteGoal(id) {
+        const goal = state.goals.find(g => g.id === id);
+        if (goal) {
+          showModal(
+            'Delete Goal', 
+            `Are you sure you want to delete "${goal.text}"? This action cannot be undone.`,
+            () => deleteGoal(id),
+            'Delete',
+            'Cancel'
+          );
+        }
+      }
+
+      function deleteGoal(id) {
+        state.goals = state.goals.filter(g => g.id !== id);
+        localStorage.setItem('divo_goals', JSON.stringify(state.goals));
+        
+        hideModal();
+        renderGoals();
+        showNotification('Goal Deleted', 'The goal has been removed successfully.', 'info');
+      }
+
+      // Theme management
+      function toggleTheme() {
+        state.theme.isDark = !state.theme.isDark;
+        localStorage.setItem('divo_theme', JSON.stringify(state.theme));
+        applyTheme(state.theme.isDark, state.theme.accentColor);
+        renderSettings();
+      }
+
+      function setAccentColor(color) {
+        state.theme.accentColor = color;
+        localStorage.setItem('divo_theme', JSON.stringify(state.theme));
+        applyTheme(state.theme.isDark, color);
+        renderSettings();
+      }
+
+      function applyTheme(isDark, accent) {
+        const root = document.documentElement;
+        
+        // Set accent color
+        root.style.setProperty('--primary', accent);
+        root.style.setProperty('--primary-dark', adjustColor(accent, -15));
+        root.style.setProperty('--primary-light', adjustColor(accent, 15));
+        root.style.setProperty('--accent', accent);
+        root.style.setProperty('--success', accent);
+        
+        // Set theme
+        if (isDark) {
+          root.style.setProperty('--bg-color', 'var(--bg-dark)');
+          root.style.setProperty('--bg-lighter', 'var(--bg-dark-lighter)');
+          root.style.setProperty('--bg-panel', 'var(--bg-panel-dark)');
+          root.style.setProperty('--text-color', 'var(--text-light)');
+          root.style.setProperty('--border-color', 'rgba(255, 255, 255, 0.1)');
+        } else {
+          root.style.setProperty('--bg-color', 'var(--bg-light)');
+          root.style.setProperty('--bg-lighter', 'var(--bg-light-darker)');
+          root.style.setProperty('--bg-panel', 'var(--bg-panel-light)');
+          root.style.setProperty('--text-color', 'var(--text-dark)');
+          root.style.setProperty('--border-color', 'rgba(0, 0, 0, 0.1)');
+        }
+      }
+
+      // Utility functions
+      function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      }
+
+      function formatDate(dateString) {
+        const options = { month: 'short', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+      }
+
+      function adjustColor(hex, percent) {
+        // Convert hex to RGB
+        let r = parseInt(hex.substring(1, 3), 16);
+        let g = parseInt(hex.substring(3, 5), 16);
+        let b = parseInt(hex.substring(5, 7), 16);
+
+        // Adjust RGB values
+        r = Math.min(255, Math.max(0, r + percent));
+        g = Math.min(255, Math.max(0, g + percent));
+        b = Math.min(255, Math.max(0, b + percent));
+
+        // Convert back to hex
+        return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+      }
+
+      function showNotification(title, message, type = 'info') {
+        state.ui.notification = {
+          show: true,
+          title,
+          message,
+          type
+        };
+        
+        renderNotification();
+        
+        // Auto hide after 4 seconds
+        setTimeout(() => {
+          hideNotification();
+        }, 4000);
+      }
+
+      function hideNotification() {
+        state.ui.notification.show = false;
+        renderNotification();
+      }
+
+      function showModal(title, message, confirmCallback, confirmText = 'Confirm', cancelText = 'Cancel') {
+        state.ui.currentModal = 'confirm';
+        state.ui.modalData = {
+          title,
+          message,
+          confirmCallback,
+          confirmText,
+          cancelText
+        };
+        
+        renderModal();
+      }
+
+      function hideModal() {
+        state.ui.currentModal = null;
+        renderModal();
+      }
+
+      function toggleSidebar() {
+        state.ui.sidebarVisible = !state.ui.sidebarVisible;
+        renderSidebar();
+      }
+
+      function closeSidebar() {
+        state.ui.sidebarVisible = false;
+        renderSidebar();
+      }
+
+      function toggleSidebarCollapse() {
+        state.ui.sidebarCollapsed = !state.ui.sidebarCollapsed;
+        renderSidebar();
+      }
+
+      // Rendering functions
+      function renderNotification() {
+        let notification = document.querySelector('.notification');
+        
+        if (!notification) {
+          notification = document.createElement('div');
+          notification.className = 'notification';
+          document.body.appendChild(notification);
+        }
+        
+        if (state.ui.notification.show) {
+          // Set notification type color
+          let borderColor = '';
+          switch (state.ui.notification.type) {
+            case 'success':
+              borderColor = 'var(--success)';
+              break;
+            case 'error':
+              borderColor = 'var(--error)';
+              break;
+            case 'warning':
+              borderColor = 'var(--warning)';
+              break;
+            default:
+              borderColor = 'var(--primary)';
+          }
+          
+          notification.style.borderLeftColor = borderColor;
+          
+          notification.innerHTML = `
+            <div class="notification-header">
+              <div class="notification-title">${state.ui.notification.title}</div>
+              <div class="notification-close" onclick="hideNotification()">
+                <i class="fas fa-times"></i>
+              </div>
+            </div>
+            <div class="notification-body">
+              ${state.ui.notification.message}
+            </div>
+          `;
+          
+          // Trigger animation
+          setTimeout(() => {
+            notification.classList.add('show');
+          }, 10);
+        } else {
+          notification.classList.remove('show');
+        }
+      }
+
+      function renderModal() {
+        let modalOverlay = document.querySelector('.modal-overlay');
+        
+        if (!modalOverlay) {
+          modalOverlay = document.createElement('div');
+          modalOverlay.className = 'modal-overlay';
+          document.body.appendChild(modalOverlay);
+        }
+        
+        if (state.ui.currentModal === 'confirm' && state.ui.modalData) {
+          const { title, message, confirmText, cancelText } = state.ui.modalData;
+          
+          modalOverlay.innerHTML = `
+            <div class="modal">
+              <div class="modal-header">
+                <h3 class="modal-title">${title}</h3>
+              </div>
+              <div class="modal-body">
+                ${message}
+              </div>
+              <div class="modal-actions">
+                <button class="btn" onclick="hideModal()">${cancelText}</button>
+                <button class="btn btn-danger" id="confirmModalAction">${confirmText}</button>
+              </div>
+            </div>
+          `;
+          
+          // Add event listener for confirm button
+          setTimeout(() => {
+            document.getElementById('confirmModalAction').addEventListener('click', state.ui.modalData.confirmCallback);
+          }, 0);
+          
+          // Show modal with animation
+          setTimeout(() => {
+            modalOverlay.classList.add('show');
+          }, 10);
+        } else {
+          modalOverlay.classList.remove('show');
+        }
+      }
+
+      function renderSidebar() {
+        const sidebar = document.querySelector('.sidebar');
+        const content = document.querySelector('.content');
+        const backdrop = document.querySelector('.sidebar-backdrop');
+        
+        if (sidebar) {
+          sidebar.classList.toggle('collapsed', state.ui.sidebarCollapsed);
+          sidebar.classList.toggle('show', state.ui.sidebarVisible);
+        }
+        
+        if (content) {
+          content.classList.toggle('full-width', state.ui.sidebarCollapsed);
+        }
+        
+        if (backdrop) {
+          backdrop.classList.toggle('show', state.ui.sidebarVisible);
+        }
+      }
+
+      function renderAuth() {
+        const app = document.querySelector('#app');
+        app.innerHTML = `
+          <div class="auth-container animate-fadeIn">
+            <div class="auth-card animate-slideUp">
+              <div class="auth-logo">
+                <div class="auth-logo-icon">
+                  <i class="fas fa-bolt"></i>
+                </div>
+                <div class="auth-logo-text">Divo</div>
+              </div>
+              <h2 class="auth-title">${state.user ? 'Welcome Back' : 'Welcome to Divo'}</h2>
+              <p class="auth-subtitle">
+                ${state.user ? 'Sign in to continue to your workspace' : 'Create an account to get started'}
+              </p>
+              <form class="auth-form" onsubmit="handleLogin(event)">
+                ${state.user ? `
+                  <div class="user-avatar">
+                    ${state.user.name.charAt(0).toUpperCase()}
+                  </div>
+                  <p style="text-align: center; margin-top: -0.5rem; margin-bottom: 1.5rem; font-size: 1.2rem; font-weight: 500;">
+                    ${state.user.name}
+                  </p>
+                ` : `
+                  <div class="form-group">
+                    <label for="name">Display Name</label>
+                    <input id="name" type="text" placeholder="Enter your name" required minlength="2">
+                  </div>
+                `}
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input id="password" type="password" placeholder="Enter your password" required minlength="6">
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: -0.5rem; margin-bottom: 0.5rem;">
+                  <input type="checkbox" id="rememberMe">
+                  <label for="rememberMe" style="font-size: 0.9rem;">Remember me</label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">
+                  ${state.user ? 'Sign In' : 'Create Account'}
+                </button>
+              </form>
+              ${state.user ? `
+                <p style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
+                  Not you? <a href="#" onclick="localStorage.removeItem('divo_user'); location.reload();" style="color: var(--primary); text-decoration: none;">Create a new account</a>
+                </p>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }
+
+      function renderDashboard() {
+        const app = document.querySelector('#app');
+        app.innerHTML = `
+          <div class="dashboard animate-fadeIn">
+            <header class="dashboard-header">
+              <div style="display: flex; align-items: center;">
+                <button class="btn btn-icon mobile-sidebar-toggle" onclick="toggleSidebar()">
+                  <i class="fas fa-bars"></i>
+                </button>
+                <div class="dashboard-logo">
+                  <div class="dashboard-logo-icon">
+                    <i class="fas fa-bolt"></i>
+                  </div>
+                  <div class="dashboard-logo-text">Divo</div>
+                </div>
+              </div>
+              <div class="user-menu">
+                <div class="user-info">
+                  <div class="user-avatar-sm">
+                    ${state.user.name.charAt(0).toUpperCase()}
+                  </div>
+                  <span>${state.user.name}</span>
+                </div>
+                <button class="btn btn-icon" onclick="handleLogout()" title="Logout">
+                  <i class="fas fa-sign-out-alt"></i>
+                </button>
+              </div>
+            </header>
+            <div class="dashboard-main">
+              <aside class="sidebar ${state.ui.sidebarCollapsed ? 'collapsed' : ''}">
+                <div class="sidebar-section">
+                  <div class="sidebar-section-title">Main</div>
+                  <nav class="sidebar-nav">
+                    <a class="nav-item ${state.activeTab === 'pomodoro' ? 'active' : ''}" 
+                       onclick="setActiveTab('pomodoro')">
+                      <div class="nav-item-icon">
+                        <i class="fas fa-clock"></i>
+                      </div>
+                      <div class="nav-item-text">Pomodoro</div>
+                    </a>
+                    <a class="nav-item ${state.activeTab === 'tasks' ? 'active' : ''}"
+                       onclick="setActiveTab('tasks')">
+                      <div class="nav-item-icon">
+                        <i class="fas fa-tasks"></i>
+                      </div>
+                      <div class="nav-item-text">Tasks</div>
+                    </a>
+                    <a class="nav-item ${state.activeTab === 'goals' ? 'active' : ''}"
+                       onclick="setActiveTab('goals')">
+                      <div class="nav-item-icon">
+                        <i class="fas fa-bullseye"></i>
+                      </div>
+                      <div class="nav-item-text">Goals</div>
+                    </a>
+                  </nav>
+                </div>
+                
+                <div class="sidebar-section">
+                  <div class="sidebar-section-title">Other</div>
+                  <nav class="sidebar-nav">
+                    <a class="nav-item ${state.activeTab === 'stats' ? 'active' : ''}"
+                       onclick="setActiveTab('stats')">
+                      <div class="nav-item-icon">
+                        <i class="fas fa-chart-line"></i>
+                      </div>
+                      <div class="nav-item-text">Stats</div>
+                    </a>
+                    <a class="nav-item ${state.activeTab === 'settings' ? 'active' : ''}"
+                       onclick="setActiveTab('settings')">
+                      <div class="nav-item-icon">
+                        <i class="fas fa-cog"></i>
+                      </div>
+                      <div class="nav-item-text">Settings</div>
+                    </a>
+                  </nav>
+                </div>
+                
+                <div style="margin-top: auto; padding-top: 1rem;">
+                  <a class="nav-item" onclick="toggleSidebarCollapse()">
+                    <div class="nav-item-icon">
+                      <i class="fas ${state.ui.sidebarCollapsed ? 'fa-chevron-right' : 'fa-chevron-left'}"></i>
+                    </div>
+                    <div class="nav-item-text">Collapse</div>
+                  </a>
+                </div>
+              </aside>
+              
+              <div class="sidebar-backdrop" onclick="closeSidebar()"></div>
+              
+              <main class="content ${state.ui.sidebarCollapsed ? 'full-width' : ''}">
+                ${renderContent()}
+              </main>
+            </div>
+          </div>
+        `;
+        
+        renderSidebar();
+      }
+
+      function renderContent() {
+        switch (state.activeTab) {
+          case 'pomodoro':
+            return renderPomodoro();
+          case 'tasks':
+            return renderTasks();
+          case 'goals':
+            return renderGoals();
+          case 'stats':
+            return renderStats();
+          case 'settings':
+            return renderSettings();
+          default:
+            return renderPomodoro();
+        }
+      }
+
+      function renderPomodoro() {
+        // Calculate circumference and stroke dashoffset
+        const radius = 120;
+        const circumference = 2 * Math.PI * radius;
+        
+        let percentage;
+        let totalSeconds;
+        
+        if (state.timer.isBreak) {
+          totalSeconds = state.timer.isLongBreak ? 
+            state.timer.longBreakDuration * 60 : 
+            state.timer.breakDuration * 60;
+        } else {
+          totalSeconds = state.timer.workDuration * 60;
+        }
+        
+        percentage = (state.timer.seconds / totalSeconds);
+        const dashoffset = circumference * (1 - percentage);
+        
+        return `
+          <div class="pomodoro-container animate-fadeIn">
+            <div class="section-header">
+              <h1 class="section-title">Pomodoro Timer</h1>
+              <p class="section-subtitle">
+                Use the Pomodoro Technique to boost your productivity: work for 25 minutes, then take a 5-minute break.
+              </p>
+            </div>
+            
+            <div class="timer-type-switcher">
+              <div class="timer-type-option ${!state.timer.isBreak ? 'active' : ''}" onclick="skipTimer()">
+                Focus
+              </div>
+              <div class="timer-type-option ${state.timer.isBreak ? 'active' : ''}" onclick="skipTimer()">
+                Break
+              </div>
+            </div>
+            
+            <div class="timer-display">
+              <div class="timer-circle-container">
+                <svg class="timer-circle" viewBox="0 0 256 256">
+                  <circle class="timer-progress-bg" cx="128" cy="128" r="${radius}" />
+                  <circle 
+                    class="timer-progress" 
+                    cx="128" 
+                    cy="128" 
+                    r="${radius}"
+                    stroke-dasharray="${circumference}"
+                    stroke-dashoffset="${dashoffset}"
+                  />
+                </svg>
+                <div class="timer-text">
+                  <div class="timer-time">${formatTime(state.timer.seconds)}</div>
+                  <div class="timer-label">${state.timer.isBreak ? (state.timer.isLongBreak ? 'Long Break' : 'Short Break') : 'Focus Time'}</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="timer-controls">
+              <button class="btn btn-outline btn-rounded" onclick="resetTimer()">
+                <i class="fas fa-redo"></i> Reset
+              </button>
+              <button class="btn ${state.timer.isActive ? 'btn-outline' : 'btn-primary'} btn-rounded" 
+                      onclick="${state.timer.isActive ? 'stopTimer()' : 'startTimer()'}">
+                <i class="fas ${state.timer.isActive ? 'fa-pause' : 'fa-play'}"></i>
+                ${state.timer.isActive ? 'Pause' : 'Start'}
+              </button>
+              <button class="btn btn-outline btn-rounded" onclick="skipTimer()">
+                <i class="fas fa-forward"></i> Skip
+              </button>
+            </div>
+            
+            <div class="session-count">
+              ${Array.from({ length: state.timer.sessionsBeforeLongBreak }).map((_, i) => `
+                <div class="session-dot ${i < (state.timer.completedSessions % state.timer.sessionsBeforeLongBreak) ? 'completed' : ''}"></div>
+              `).join('')}
+            </div>
+            
+            <div class="stats-container" style="margin-top: 3rem;">
+              <div class="stat-card">
+                <div class="stat-header">
+                  <div class="stat-icon">
+                    <i class="fas fa-fire"></i>
+                  </div>
+                </div>
+                <div class="stat-title">Focus Sessions Today</div>
+                <div class="stat-value">${state.timer.totalSessionsToday}</div>
+              </div>
+              
+              <div class="stat-card">
+                <div class="stat-header">
+                  <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                  </div>
+                </div>
+                <div class="stat-title">Minutes Focused</div>
+                <div class="stat-value">${state.stats.focusTimeToday}</div>
+              </div>
+              
+              <div class="stat-card">
+                <div class="stat-header">
+                  <div class="stat-icon">
+                    <i class="fas fa-check"></i>
+                  </div>
+                </div>
+                <div class="stat-title">Tasks Completed</div>
+                <div class="stat-value">${state.stats.tasksCompletedToday}</div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderTasks() {
+        // Count completed tasks
+        const completedTasksCount = state.tasks.filter(t => t.completed).length;
+        const totalTasksCount = state.tasks.length;
+        const completionRate = totalTasksCount > 0 ? Math.round((completedTasksCount / totalTasksCount) * 100) : 0;
+        
+        return `
+          <div class="task-container animate-fadeIn">
+            <div class="section-header">
+              <h1 class="section-title">Tasks</h1>
+              <p class="section-subtitle">
+                Manage your daily tasks and track your progress. ${totalTasksCount > 0 ? `You've completed ${completedTasksCount} out of ${totalTasksCount} tasks (${completionRate}%).` : ''}
+              </p>
+            </div>
+            
+            <div class="add-form">
+              <h3 class="add-form-title">Add New Task</h3>
+              <form onsubmit="addTask(event)">
+                <div class="add-form-row">
+                  <div class="add-form-col">
+                    <div class="form-group">
+                      <label for="newTaskText">What needs to be done?</label>
+                      <input type="text" id="newTaskText" placeholder="Enter task description..." required>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label>Priority Level</label>
+                  <div class="priority-options">
+                    <label class="priority-option low">
+                      <input type="radio" name="taskPriority" value="low">
+                      Low
+                    </label>
+                    <label class="priority-option medium active">
+                      <input type="radio" name="taskPriority" value="medium" checked>
+                      Medium
+                    </label>
+                    <label class="priority-option high">
+                      <input type="radio" name="taskPriority" value="high">
+                      High
+                    </label>
+                  </div>
+                </div>
+                
+                <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add Task
+                  </button>
+                </div>
+              </form>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <h3>Your Tasks (${state.tasks.length})</h3>
+              ${completedTasksCount > 0 ? `
+                <button class="btn btn-sm" onclick="clearCompletedTasks()">
+                  <i class="fas fa-trash"></i> Clear Completed
+                </button>
+              ` : ''}
+            </div>
+            
+            <div class="item-list">
+              ${state.tasks.length === 0 ? `
+                <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                  <i class="fas fa-tasks" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                  <p>You don't have any tasks yet.</p>
+                  <p>Add your first task to get started!</p>
+                </div>
+              ` : state.tasks.map(task => `
+                <div class="item-card ${task.completed ? 'completed' : ''}">
+                  <div class="item-checkbox">
+                    <input type="checkbox" ${task.completed ? 'checked' : ''} 
+                           onchange="toggleTask('${task.id}')">
+                    <span class="checkmark"></span>
+                  </div>
+                  <div class="item-content">
+                    <div class="item-title">${task.text}</div>
+                    <div class="item-meta">
+                      <span class="priority-badge ${task.priority}">${task.priority}</span>
+                      <span>Added ${formatDate(task.createdAt)}</span>
+                    </div>
+                  </div>
+                  <div class="item-actions">
+                    <button class="btn btn-icon btn-danger-outline" onclick="confirmDeleteTask('${task.id}')">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      function renderGoals() {
+        // Count completed goals
+        const dailyGoals = state.goals.filter(g => g.timeframe === 'daily');
+        const weeklyGoals = state.goals.filter(g => g.timeframe === 'weekly');
+        
+        const completedDailyCount = dailyGoals.filter(g => g.completed).length;
+        const completedWeeklyCount = weeklyGoals.filter(g => g.completed).length;
+        
+        return `
+          <div class="task-container animate-fadeIn">
+            <div class="section-header">
+              <h1 class="section-title">Goals</h1>
+              <p class="section-subtitle">
+                Set and track your daily and weekly goals to stay motivated and achieve more.
+              </p>
+            </div>
+            
+            <div class="add-form">
+              <h3 class="add-form-title">Add New Goal</h3>
+              <form onsubmit="addGoal(event)">
+                <div class="add-form-row">
+                  <div class="add-form-col">
+                    <div class="form-group">
+                      <label for="newGoalText">What's your goal?</label>
+                      <input type="text" id="newGoalText" placeholder="Enter goal description..." required>
+                    </div>
+                  </div>
+                  <div class="add-form-col" style="max-width: 200px;">
+                    <div class="form-group">
+                      <label for="goalTimeframe">Timeframe</label>
+                      <select id="goalTimeframe">
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                
+                <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add Goal
+                  </button>
+                </div>
+              </form>
+            </div>
+            
+            <h3 style="margin: 2rem 0 1rem;">Daily Goals (${completedDailyCount}/${dailyGoals.length})</h3>
+            <div class="item-list">
+              ${dailyGoals.length === 0 ? `
+                <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                  <i class="fas fa-calendar-day" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                  <p>You don't have any daily goals set.</p>
+                  <p>Add a daily goal to track your day-to-day progress!</p>
+                </div>
+              ` : dailyGoals.map(goal => `
+                <div class="item-card ${goal.completed ? 'completed' : ''}">
+                  <div class="item-checkbox">
+                    <input type="checkbox" ${goal.completed ? 'checked' : ''} 
+                           onchange="toggleGoal('${goal.id}')">
+                    <span class="checkmark"></span>
+                  </div>
+                  <div class="item-content">
+                    <div class="item-title">${goal.text}</div>
+                    <div class="item-meta">
+                      <span class="timeframe-badge">Daily</span>
+                      <span>Added ${formatDate(goal.createdAt)}</span>
+                    </div>
+                  </div>
+                  <div class="item-actions">
+                    <button class="btn btn-icon btn-danger-outline" onclick="confirmDeleteGoal('${goal.id}')">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+            
+            <h3 style="margin: 2rem 0 1rem;">Weekly Goals (${completedWeeklyCount}/${weeklyGoals.length})</h3>
+            <div class="item-list">
+              ${weeklyGoals.length === 0 ? `
+                <div style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                  <i class="fas fa-calendar-week" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                  <p>You don't have any weekly goals set.</p>
+                  <p>Add a weekly goal to track your longer-term progress!</p>
+                </div>
+              ` : weeklyGoals.map(goal => `
+                <div class="item-card ${goal.completed ? 'completed' : ''}">
+                  <div class="item-checkbox">
+                    <input type="checkbox" ${goal.completed ? 'checked' : ''} 
+                           onchange="toggleGoal('${goal.id}')">
+                    <span class="checkmark"></span>
+                  </div>
+                  <div class="item-content">
+                    <div class="item-title">${goal.text}</div>
+                    <div class="item-meta">
+                      <span class="timeframe-badge">Weekly</span>
+                      <span>Added ${formatDate(goal.createdAt)}</span>
+                    </div>
+                  </div>
+                  <div class="item-actions">
+                    <button class="btn btn-icon btn-danger-outline" onclick="confirmDeleteGoal('${goal.id}')">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      function renderStats() {
+        return `
+          <div class="settings-container animate-fadeIn">
+            <div class="section-header">
+              <h1 class="section-title">Statistics</h1>
+              <p class="section-subtitle">
+                Track your productivity metrics and progress over time.
+              </p>
+            </div>
+            
+            <div class="stats-container">
+              <div class="stat-card">
+                <div class="stat-header">
+                  <div class="stat-title">Focus Time Today</div>
+                  <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                  </div>
+                </div>
+                <div class="stat-value">${state.stats.focusTimeToday} min</div>
+                <div class="stat-change">
+                  <i class="fas fa-clock"></i> Total time focused
+                </div>
+              </div>
+              
+              <div class="stat-card">
+                <div class="stat-header">
+                  <div class="stat-title">Sessions Completed</div>
+                  <div class="stat-icon">
+                    <i class="fas fa-hourglass-end"></i>
+                  </div>
+                </div>
+                <div class="stat-value">${state.timer.totalSessionsToday}</div>
+                <div class="stat-change">
+                  <i class="fas fa-calendar-day"></i> Today
+                </div>
+              </div>
+              
+              <div class="stat-card">
+                <div class="stat-header">
+                  <div class="stat-title">Tasks Completed</div>
+                  <div class="stat-icon">
+                    <i class="fas fa-tasks"></i>
+                  </div>
+                </div>
+                <div class="stat-value">${state.stats.tasksCompletedToday}</div>
+                <div class="stat-change ${state.stats.tasksCompletedToday > 0 ? 'positive' : ''}">
+                  ${state.stats.tasksCompletedToday > 0 ? '<i class="fas fa-arrow-up"></i>' : ''} ${state.tasks.filter(t => t.completed).length} total completed
+                </div>
+              </div>
+              
+              <div class="stat-card">
+                <div class="stat-header">
+                  <div class="stat-title">Goals Progress</div>
+                  <div class="stat-icon">
+                    <i class="fas fa-bullseye"></i>
+                  </div>
+                </div>
+                <div class="stat-value">${Math.round((state.goals.filter(g => g.completed).length / (state.goals.length || 1)) * 100)}%</div>
+                <div class="stat-change">
+                  <i class="fas fa-list-check"></i> ${state.goals.filter(g => g.completed).length}/${state.goals.length} completed
+                </div>
+              </div>
+            </div>
+            
+            <div class="settings-section">
+              <h3 class="settings-section-title">Pomodoro Summary</h3>
+              <div style="margin-top: 1rem;">
+                <p><strong>Work Duration:</strong> ${state.timer.workDuration} minutes</p>
+                <p><strong>Break Duration:</strong> ${state.timer.breakDuration} minutes</p>
+                <p><strong>Long Break Duration:</strong> ${state.timer.longBreakDuration} minutes</p>
+                <p><strong>Sessions Before Long Break:</strong> ${state.timer.sessionsBeforeLongBreak}</p>
+              </div>
+            </div>
+            
+            <div class="settings-section">
+              <h3 class="settings-section-title">Task & Goal Summary</h3>
+              <div style="margin-top: 1rem;">
+                <p><strong>Total Tasks:</strong> ${state.tasks.length}</p>
+                <p><strong>Completed Tasks:</strong> ${state.tasks.filter(t => t.completed).length}</p>
+                <p><strong>Active Tasks:</strong> ${state.tasks.filter(t => !t.completed).length}</p>
+                <p><strong>High Priority Tasks:</strong> ${state.tasks.filter(t => t.priority === 'high' && !t.completed).length}</p>
+                <p><strong>Daily Goals:</strong> ${state.goals.filter(g => g.timeframe === 'daily').length} (${state.goals.filter(g => g.timeframe === 'daily' && g.completed).length} completed)</p>
+                <p><strong>Weekly Goals:</strong> ${state.goals.filter(g => g.timeframe === 'weekly').length} (${state.goals.filter(g => g.timeframe === 'weekly' && g.completed).length} completed)</p>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderSettings() {
+        return `
+          <div class="settings-container animate-fadeIn">
+            <div class="section-header">
+              <h1 class="section-title">Settings</h1>
+              <p class="section-subtitle">
+                Customize your workspace experience and timer settings.
+              </p>
+            </div>
+            
+            <div class="settings-section">
+              <h3 class="settings-section-title">Theme Preferences</h3>
+              
+              <div class="theme-switcher">
+                <div class="theme-option dark ${state.theme.isDark ? 'active' : ''}" onclick="toggleTheme()">
+                  <div class="theme-option-header"></div>
+                  <div class="theme-option-content">
+                    <div class="theme-option-sidebar"></div>
+                    <div class="theme-option-main"></div>
+                  </div>
+                  <div class="theme-option-check">
+                    <i class="fas fa-check"></i>
+                  </div>
+                  <div class="theme-option-name">Dark</div>
+                </div>
+                
+                <div class="theme-option light ${!state.theme.isDark ? 'active' : ''}" onclick="toggleTheme()">
+                  <div class="theme-option-header"></div>
+                  <div class="theme-option-content">
+                    <div class="theme-option-sidebar"></div>
+                    <div class="theme-option-main"></div>
+                  </div>
+                  <div class="theme-option-check">
+                    <i class="fas fa-check"></i>
+                  </div>
+                  <div class="theme-option-name">Light</div>
+                </div>
+              </div>
+              
+              <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Accent Color</h3>
+              <div class="color-options">
+                <div class="color-option ${state.theme.accentColor === COLORS.green ? 'active' : ''}" 
+                     style="background-color: ${COLORS.green};" 
+                     onclick="setAccentColor('${COLORS.green}')">
+                  <div class="color-option-check">
+                    <i class="fas fa-check"></i>
+                  </div>
+                </div>
+                <div class="color-option ${state.theme.accentColor === COLORS.blue ? 'active' : ''}" 
+                     style="background-color: ${COLORS.blue};" 
+                     onclick="setAccentColor('${COLORS.blue}')">
+                  <div class="color-option-check">
+                    <i class="fas fa-check"></i>
+                  </div>
+                </div>
+                <div class="color-option ${state.theme.accentColor === COLORS.purple ? 'active' : ''}" 
+                     style="background-color: ${COLORS.purple};" 
+                     onclick="setAccentColor('${COLORS.purple}')">
+                  <div class="color-option-check">
+                    <i class="fas fa-check"></i>
+                  </div>
+                </div>
+                <div class="color-option ${state.theme.accentColor === COLORS.pink ? 'active' : ''}" 
+                     style="background-color: ${COLORS.pink};" 
+                     onclick="setAccentColor('${COLORS.pink}')">
+                  <div class="color-option-check">
+                    <i class="fas fa-check"></i>
+                  </div>
+                </div>
+                <div class="color-option ${state.theme.accentColor === COLORS.orange ? 'active' : ''}" 
+                     style="background-color: ${COLORS.orange};" 
+                     onclick="setAccentColor('${COLORS.orange}')">
+                  <div class="color-option-check">
+                    <i class="fas fa-check"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="settings-section">
+              <h3 class="settings-section-title">Timer Settings</h3>
+              
+              <form id="timerSettingsForm" onsubmit="event.preventDefault(); updateTimerSettings(
+                document.getElementById('workDuration').value,
+                document.getElementById('breakDuration').value,
+                document.getElementById('longBreakDuration').value,
+                document.getElementById('sessionsBeforeLongBreak').value
+              )">
+                <div class="time-settings">
+                  <div class="form-group">
+                    <label for="workDuration">Focus Duration (min)</label>
+                    <input type="number" id="workDuration" min="1" max="60" value="${state.timer.workDuration}">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="breakDuration">Short Break (min)</label>
+                    <input type="number" id="breakDuration" min="1" max="30" value="${state.timer.breakDuration}">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="longBreakDuration">Long Break (min)</label>
+                    <input type="number" id="longBreakDuration" min="5" max="60" value="${state.timer.longBreakDuration}">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="sessionsBeforeLongBreak">Sessions Before Long Break</label>
+                    <input type="number" id="sessionsBeforeLongBreak" min="1" max="10" value="${state.timer.sessionsBeforeLongBreak}">
+                  </div>
+                </div>
+                
+                <div style="margin-top: 1.5rem;">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Save Timer Settings
+                  </button>
+                </div>
+              </form>
+              
+              <div class="data-section">
+                <h3 style="margin-bottom: 1rem;">Data & Privacy</h3>
+                
+                <button class="btn btn-danger" onclick="showModal(
+                  'Clear All Data', 
+                  'Are you sure you want to clear all your data? This will remove all tasks, goals, and reset your statistics. This action cannot be undone.',
+                  () => {
+                    localStorage.clear();
+                    location.reload();
+                  },
+                  'Clear All Data',
+                  'Cancel'
+                )">
+                  <i class="fas fa-trash"></i> Clear All Data
+                </button>
+              </div>
+            </div>
+            
+            <div class="settings-section">
+              <h3 class="settings-section-title">About Divo</h3>
+              <div style="margin-top: 1rem;">
+                <p><strong>Version:</strong> 1.0.0</p>
+                <p><strong>Built with:</strong> HTML, CSS, and JavaScript</p>
+                <p><strong>Description:</strong> Divo is a productivity tool that helps you manage tasks, set goals, and use the Pomodoro Technique to boost your focus and efficiency.</p>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderTimer() {
+        const timerText = document.querySelector('.timer-time');
+        const timerLabel = document.querySelector('.timer-label');
+        const timerProgress = document.querySelector('.timer-progress');
+        
+        if (timerText && timerLabel && timerProgress) {
+          timerText.textContent = formatTime(state.timer.seconds);
+          
+          timerLabel.textContent = state.timer.isBreak ? 
+            (state.timer.isLongBreak ? 'Long Break' : 'Short Break') : 
+            'Focus Time';
+          
+          // Update progress indicator
+          const radius = 120;
+          const circumference = 2 * Math.PI * radius;
+          
+          let percentage;
+          let totalSeconds;
+          
+          if (state.timer.isBreak) {
+            totalSeconds = state.timer.isLongBreak ? 
+              state.timer.longBreakDuration * 60 : 
+              state.timer.breakDuration * 60;
+          } else {
+            totalSeconds = state.timer.workDuration * 60;
+          }
+          
+          percentage = (state.timer.seconds / totalSeconds);
+          const dashoffset = circumference * (1 - percentage);
+          
+          timerProgress.setAttribute('stroke-dashoffset', dashoffset);
+          
+          // Update document title
+          document.title = `${formatTime(state.timer.seconds)} - ${state.timer.isBreak ? 'Break' : 'Focus'} - Divo`;
+          
+          // Update session dots
+          const sessionDots = document.querySelectorAll('.session-dot');
+          if (sessionDots) {
+            sessionDots.forEach((dot, i) => {
+              dot.classList.toggle('completed', i < (state.timer.completedSessions % state.timer.sessionsBeforeLongBreak));
+            });
+          }
+        }
+      }
+
+      function setActiveTab(tab) {
+        state.activeTab = tab;
+        renderApp();
+      }
+
+      function renderApp() {
+        if (state.user && state.isAuthenticated) {
+          renderDashboard();
+        } else {
+          renderAuth();
+        }
+      }
+
+      // Initialize app
+      function initApp() {
+        loadSavedData();
+        
+        // Request notification permission
+        if ('Notification' in window) {
+          if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+            setTimeout(() => {
+              Notification.requestPermission();
+            }, 3000);
+          }
+        }
+        
+        // Event listeners for priority option selectors
+        document.addEventListener('click', function(e) {
+          if (e.target && e.target.matches('.priority-option, .priority-option *')) {
+            const option = e.target.closest('.priority-option');
+            const radio = option.querySelector('input[type="radio"]');
+            
+            if (radio) {
+              radio.checked = true;
+              
+              // Remove active class from siblings
+              const options = option.parentElement.querySelectorAll('.priority-option');
+              options.forEach(opt => opt.classList.remove('active'));
+              
+              // Add active class to clicked option
+              option.classList.add('active');
+            }
+          }
+        });
+        
+        renderApp();
+      }
+
+      // Start the app
+      initApp();
+    </script>
+  </body>
+</html>
